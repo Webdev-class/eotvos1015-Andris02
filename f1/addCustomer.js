@@ -12,14 +12,26 @@ let customers = [
 ]
 
 function isAddress(address) {
-    //TODO
+    return address && typeof address === 'object' &&
+    'city' in address && typeof address.city === 'string' &&
+    'street' in address && typeof address.street === 'string' &&
+    'house' in address && typeof address.house === 'number';
 }
 
 function isCustomer(name, age, address, newsLetter) {
-    //TODO
+    return typeof name === 'string' &&
+    typeof age === 'number' &&
+    isAddress(address) &&
+    typeof newsLetter === 'boolean';
 }
-
 function addCustomer(name, age, address, newsLetter) {
-    //TODO
+    if (isCustomer(name, age, address, newsLetter)) {
+        const newId = customers.length ? customers[customers.length - 1].id + 1 : 1; // új ID generálása
+        const newCustomer = { id: newId, name, age, address, newsLetter };
+        customers.push(newCustomer);
+        return newCustomer;
+    } else {
+        throw new Error("Invalid customer data");
+    }
 }
 module.exports = addCustomer;

@@ -11,14 +11,33 @@ let customers = [
     {id:10, name:"Jonas Tungate", age:83, address:{city:"Padangulaktanding", street:"224 Manley Drive", house:49}, newsLetter: true}
 ]
 function isAddress(address) {    
-    //TODO
+    return address && typeof address === 'object' &&
+        'city' in address && typeof address.city === 'string' &&
+        'street' in address && typeof address.street === 'string' &&
+        'house' in address && typeof address.house === 'number';
 }
 
 function isCustomer(name, age, address, newsLetter) {    
-    //TODO
+    return typeof name === 'string' &&
+        typeof age === 'number' &&
+        isAddress(address) &&
+        typeof newsLetter === 'boolean';
 }
 function modifyCustomer (customer){
-    //TODO
+    const index = customers.findIndex(c => c.id === customer.id);
+    
+    if (index !== -1 && isCustomer(customer.name, customer.age, customer.address, customer.newsLetter)) {
+        customers[index] = {
+            ...customers[index],
+            name: customer.name,
+            age: customer.age,
+            address: customer.address,
+            newsLetter: customer.newsLetter
+        };
+        return customers[index];
+    } else {
+        throw new Error("Invalid customer data or customer not found");
+    }
 }
 
 module.exports = modifyCustomer;
